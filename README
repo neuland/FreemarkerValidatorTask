@@ -1,0 +1,23 @@
+
+
+
+
+Create a build file like this:
+
+<?xml version="1.0"?>
+
+<project name="test" default="main">
+	<taskdef name="freemarkerValidator" classname="de.neuland.tools.ant.FreemarkerValidatorTask"/>
+
+	<target name="main">
+		<freemarkerValidator verbose="true">
+			<fileset dir="web/webroot/WEB-INF/views">
+				<include name="**/*.ftl"/>
+			</fileset>
+		</freemarkerValidator>
+	</target>
+
+</project>
+
+
+You will need freemarker-validation-task.jar and the current freemarker.jar in your Classpath to make things work.
