@@ -1,1 +1,3 @@
-bin/
+bin
+ant_bin
+freemarker-validator-task.jar

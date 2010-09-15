@@ -1,0 +1,16 @@
+<project name="FreemarkerValidatorTask" default="jar">
+
+	<target name="compile">
+		<mkdir dir="ant_bin"/>
+		<javac srcdir="src" destdir="ant_bin">
+			<classpath>
+				<fileset dir="lib"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="freemarker-validator-task.jar" basedir="ant_bin"/>
+	</target>
+
+</project>
