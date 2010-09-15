@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<project name="test" default="main">
+	<taskdef name="freemarkerValidator" classname="de.neuland.tools.ant.FreemarkerValidatorTask"/>
+
+	<target name="main">
+		<freemarkerValidator verbose="true">
+			<fileset dir="view"/>
+		</freemarkerValidator>
+	</target>
+
+</project>
