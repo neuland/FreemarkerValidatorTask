@@ -1,5 +1,7 @@
 package de.neuland.tools.ant;
 
+import static java.lang.System.out;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Iterator;
@@ -22,35 +24,33 @@ public class FreemarkerValidatorTask extends Task {
 
 	@Override
 	public void execute() throws BuildException {
-		System.out.println("started");
+		out.println("validating freemarker templates");
 		
 		boolean foundInvalid = false;
 		
 		@SuppressWarnings("unchecked")
 		Iterator<FileResource> fileResourceIterator = fileSet.iterator();
-		
-		FileResource fileResource = null;
+
 		while (fileResourceIterator.hasNext()) {
-			fileResource = fileResourceIterator.next();
-			foundInvalid |= ! validate(fileResource);
+			foundInvalid |= ! validate(fileResourceIterator.next());
 		}
 		
-		System.out.println("processed "+fileSet.size()+" files. finished.");
+		out.println("processed "+fileSet.size()+" files. finished.");
 		
 		if (foundInvalid) throw new BuildException("malformed freemarker syntax found");
 	}
 
 	private boolean validate(FileResource fileResource) {
 		boolean isValid = false;
+		String filePath = fileResource.getFile().getAbsolutePath();
 		try {
-			String filePath = fileResource.getFile().getAbsolutePath();
 			printIfVerbose("validating "+filePath);
 			new Template(filePath, new InputStreamReader(fileResource.getInputStream()), null);
 			printIfVerbose("\t" + CHECK_MARK + "\n");
 			isValid = true;
 		} catch (ParseException e) {
 			printIfVerbose("\t" + CROSS + "\n");
-			System.out.println("!!! "+e.getMessage());
+			out.println("!!! "+filePath+"\n!!! "+e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -58,7 +58,7 @@ public class FreemarkerValidatorTask extends Task {
 	}
 
 	private void printIfVerbose(String s) {
-		if (verbose) System.out.print(s);
+		if (verbose) out.print(s);
 	}
 
 	public void add(FileSet files) {
